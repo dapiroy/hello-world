@@ -7,7 +7,7 @@ pipeline{
         AWS_DEFAULT_REGION = "us-east-1"
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "34.203.248.221:8081"
+        NEXUS_URL = "3.89.62.95:8081"
         NEXUS_REPOSITORY = "maven-central-repository"
         NEXUS_CREDENTIAL_ID = "NEXUS_CRED"
     }
@@ -75,19 +75,17 @@ pipeline{
             }
        }
         
-    node {
-
-        stage("Apply Kubernetes files") {
-            withKubeConfig([credentialsId: 'kubernetes-config', serverUrl: 'https://E3D923460DAD8767F970E8D584E3DF1E.gr7.us-east-1.eks.amazonaws.com']){
-                        sh "aws eks update-kubeconfig --name eks"
-                        // sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
-                        // sh 'chmod u+x ./kubectl'
+        stage("Deploy to EKS") {
+            steps {
+                script {
+                    dir('k8s') {
+                        sh "aws eks update-kubeconfig --name my-eks"
                         sh "kubectl apply -f regapp-deploy.yml"
                         sh "kubectl apply -f regapp-service.yml"
+                    }
+                }
             }
-                
         }
-    }
     }
     
 }
