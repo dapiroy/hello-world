@@ -55,7 +55,7 @@ pipeline{
                     nexusArtifactUploader artifacts: [[artifactId: 'pom.maven-project', classifier: '', file: 'webapp/target/webapp.war', type: 'war']],
                     credentialsId: 'NEXUS_CRED', 
                     groupId: 'pom.com.example.maven-project', 
-                    nexusUrl: '34.203.248.221:8081', 
+                    nexusUrl: '3.89.62.95:8081', 
                     nexusVersion: 'nexus3', 
                     protocol: 'http', 
                     repository: 'maven-central-repository', 
