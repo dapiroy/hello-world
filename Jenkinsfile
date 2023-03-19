@@ -76,15 +76,18 @@ pipeline{
     //    }
         
        stage('Push image') {
-        
-          docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-            dockerImage.push("${env.BUILD_NUMBER}")
-          }
+           steps {
+               docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                    dockerImage.push("${env.BUILD_NUMBER}")
+               }
+           }
        }
     
        stage('Trigger ManifestUpdate') {
-                echo "triggering updatemanifestjob"
-                build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+           steps{
+               echo "triggering updatemanifestjob"
+               build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+           }
        }
     }
     
