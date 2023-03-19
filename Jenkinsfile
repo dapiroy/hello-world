@@ -43,7 +43,7 @@ pipeline{
        stage("Build Docker Image") {
             steps{
                 script{
-                    dockerImage = docker.build dapiroy/regapp
+                    dockerImage = docker.build ("dapiroy/regapp")
                 }
             }
        }
